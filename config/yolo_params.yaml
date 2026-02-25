@@ -1,0 +1,23 @@
+saaki_ros2_yolo_node:
+  ros__parameters:
+    request_topic: "/api/videohub/request"
+    response_topic: "/api/videohub/response"
+    video_api_id: 1001
+    request_timeout_sec: 0.5
+    target_fps: 15.0
+    frame_id: "g1_front_camera"
+
+    detections_topic: "/g1/yolo/detections_2d"
+    annotated_image_topic: "/g1/yolo/annotated_image"
+    publish_annotated_image: true
+    annotated_image_max_fps: 15.0
+    annotated_image_scale: 0.33
+
+    publish_legacy_json: true
+    legacy_detections_topic: "/g1/yolo/detections"
+
+    model_path: "yolov8n.pt"
+    device: "auto"
+    conf_threshold: 0.25
+    iou_threshold: 0.45
+    max_detections: 50
