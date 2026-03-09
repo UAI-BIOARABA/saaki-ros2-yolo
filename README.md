@@ -1,52 +1,77 @@
 <div align="center">
 
-<h1> Saaki ROS 2 YOLO - Unitree G1 </h1>
+<h1> YOLO Object Detection in ROS2 for Saaki - Unitree G1 </h1>
+
+<p>
+  <a href="README.md">English</a> |
+  <a href="README_es.md">Español</a>
+</p>
 
 [![ROS 2 Humble](https://img.shields.io/badge/ROS2-Humble-22314E?logo=ros&logoColor=white)](https://docs.ros.org/en/humble/index.html)
 [![Ubuntu 22.04](https://img.shields.io/badge/Ubuntu-22.04-E95420?logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/22.04/)
+[![Python 3.10](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Ultralytics](https://img.shields.io/badge/Ultralytics-YOLO%20V8-111F68?logo=ultralytics&logoColor=white)](https://docs.ultralytics.com/models/yolov8/)
+[![CUDA](https://img.shields.io/badge/CUDA-76B900?logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda/toolkit)
+
+[![Computer Vision](https://img.shields.io/badge/AI-Computer%20Vision-purple)](https://www.ultralytics.com/)
+[![Robot: Unitree G1](https://img.shields.io/badge/Robot-Unitree%20G1-0A66C2)](#-real-g1-robot)
+[![Status: Tested on G1](https://img.shields.io/badge/Status-Tested%20on%20Real%20Hardware-success)](#execution-and-verification)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status: Tested on G1](https://img.shields.io/badge/Status-Tested%20on%20Unitree%20G1-success)](#ejecucion-y-verificacion)
+</div>
+
+<div align="center">
+
+<table>
+<tr>
+<td align="center">
+<img width="500" height="500" alt="Robot View" src="https://github.com/user-attachments/assets/ce03567d-3936-44d4-9236-99993c3ff4ae" />
+</td>
+
+<td align="center">
+<img width="400" height="400" alt="Output" src="https://github.com/user-attachments/assets/b81133a8-3602-460e-9273-623e7858d9aa" />
+</td>
+</tr>
+</table>
 
 </div>
 
----
+## 📖 Description
 
-## 📖 Descripción
+This repository is a ROS 2 package for object detection on the **Unitree G1** using YOLO on the robot's official camera channel (`videohub`).
 
-Este repositorio es un paquete ROS 2 para detección de objetos en el **Unitree G1** usando YOLO sobre el canal oficial de cámara del robot (`videohub`).
+It publishes detections in standard ROS vision format (`vision_msgs/Detection2DArray`) and, optionally, annotated image and legacy JSON output.
 
-Publica detecciones en formato estándar de visión ROS (`vision_msgs/Detection2DArray`) y, de forma opcional, imagen anotada y salida JSON legacy.
+**Credits and origin:** this package integrates with Unitree's official message layer (`unitree_api`, `unitree_go`, `unitree_hg`) and is designed to work with `unitree_ros2`.
 
-**Créditos y origen:** este paquete se integra con la capa oficial de mensajes de Unitree (`unitree_api`, `unitree_go`, `unitree_hg`) y está preparado para trabajar sobre `unitree_ros2`.
+Functional flow:
 
-Flujo funcional:
-
-1. Envía requests a `/api/videohub/request` (`api_id=1001`).
-2. Recibe JPEG en `/api/videohub/response`.
-3. Decodifica frame con OpenCV.
-4. Ejecuta YOLO (`ultralytics`).
-5. Publica:
+1. Sends requests to `/api/videohub/request` (`api_id=1001`).
+2. Receives JPEG from `/api/videohub/response`.
+3. Decodes frame with OpenCV.
+4. Executes YOLO (`ultralytics`).
+5. Publishes:
    - `/g1/yolo/detections_2d` (`vision_msgs/msg/Detection2DArray`)
-   - `/g1/yolo/annotated_image` (`sensor_msgs/msg/Image`, opcional)
-   - `/g1/yolo/detections` (`std_msgs/msg/String`, opcional JSON)
+   - `/g1/yolo/annotated_image` (`sensor_msgs/msg/Image`, optional)
+   - `/g1/yolo/detections` (`std_msgs/msg/String`, optional JSON)
 
-Notas de diseño:
+Design notes:
 
-- Solo hay **una request en vuelo** para evitar backlog.
-- Tiene timeout de request (`request_timeout_sec`) con recuperación automática.
-- `device=auto` usa `cuda:0` si hay GPU disponible; si no, `cpu`.
-- No depende de `realsense-ros`.
+- Only **one request in flight** to avoid backlog.
+- Has request timeout (`request_timeout_sec`) with automatic recovery.
+- `device=auto` uses `cuda:0` if GPU is available; otherwise, `cpu`.
+- Does not depend on `realsense-ros`.
 
 ---
 
-## 🛠️ Requisitos previos
+## 🛠️ Prerequisites
 
 - Ubuntu 22.04
 - ROS 2 Humble
-- Robot Unitree G1 conectado por Ethernet
-- Underlay de Unitree operativo (`~/unitree_ros2/setup.sh`)
+- Unitree G1 robot connected via Ethernet
+- Operational Unitree underlay (`~/unitree_ros2/setup.sh`)
 
-Dependencias de sistema:
+System dependencies:
 
 ```bash
 sudo apt update
@@ -56,7 +81,7 @@ sudo apt install -y \
   python3-numpy
 ```
 
-Dependencias Python:
+Python dependencies:
 
 ```bash
 pip install ultralytics
@@ -64,41 +89,41 @@ pip install ultralytics
 
 ---
 
-## 📦 1. Instalación Base (Dependencias de Unitree)
+## 📦 1. Base Installation (Unitree Dependencies)
 
-Dado que este paquete depende de los mensajes oficiales del robot (`unitree_go`, `unitree_hg`, `unitree_api`), **es obligatorio** instalar y compilar el repositorio oficial de Unitree como capa base ("underlay") antes de compilar este repositorio.
+Since this package depends on the robot's official messages (`unitree_go`, `unitree_hg`, `unitree_api`), it is **mandatory** to install and compile the official Unitree repository as the base layer ("underlay") before compiling this repository.
 
-### 1.1. Instalar CycloneDDS
+### 1.1. Install CycloneDDS
 
-El robot se comunica a través de CycloneDDS. En ROS 2 Humble, basta con instalar los binarios del sistema:
+The robot communicates via CycloneDDS. In ROS 2 Humble, simply install the system binaries:
 
 ```bash
 sudo apt install ros-humble-rmw-cyclonedds-cpp ros-humble-rosidl-generator-dds-idl libyaml-cpp-dev
 ```
 
-### 1.2. Clonar y compilar los mensajes oficiales
-No es necesario compilar todo el repositorio de Unitree, solo su espacio de trabajo de CycloneDDS:
+### 1.2. Clone and compile official messages
+It is not necessary to compile the entire Unitree repository, only its CycloneDDS workspace:
 
 ```bash
-# Clonar el repositorio oficial en tu directorio home (usa nuestro fork)
+# Clone the official repository in your home directory (use our fork)
 git clone https://github.com/UAI-BIOARABA/unitree_ros2
 
-# Compilar los paquetes de mensajes
+# Compile message packages
 cd ~/unitree_ros2/cyclonedds_ws
 colcon build
 ```
 
 ---
 
-## 🎁 2. Instalación y compilación de este repositorio
+## 🎁 2. Installation and compilation of this repository
 
-Desde tu workspace:
+From your workspace:
 
 ```bash
 cd ~/ros2_ws/src
-# Clonar este repositorio (le ponemos '_' en vez de '-' por estandares de ROS2)
+# Clone this repository (we use '_' instead of '-' following ROS2 standards)
 git clone https://github.com/UAI-BIOARABA/saaki-ros2-yolo.git saaki_ros2_yolo
-# Ir a la raíz del workspace
+# Go to workspace root
 cd ~/ros2_ws
 source /opt/ros/humble/setup.bash
 source ~/unitree_ros2/setup.sh
@@ -108,19 +133,19 @@ source ~/ros2_ws/install/setup.bash
 
 ---
 
-## 🌐 3. Configuración de Red (Conexión al Robot)
+## 🌐 3. Network Configuration (Robot Connection)
 
-Para que ROS 2 descubra al robot, tu PC debe estar en la misma subred y usar CycloneDDS correctamente.
+For ROS 2 to discover the robot, your PC must be on the same subnet and use CycloneDDS correctly.
 
-### 1. Conecta el PC al robot mediante cable Ethernet.
+### 1. Connect your PC to the robot via Ethernet cable.
 
-### 2. Configura una IP estática en tu PC:
+### 2. Configure a static IP on your PC:
 
    - IP: 192.168.123.99
 
-   - Máscara: 255.255.255.0
+   - Netmask: 255.255.255.0
 
-### 3. Edita el script de configuración oficial (~/unitree_ros2/setup.sh). Debe quedar algo así (cambia enp44s0 por el nombre de tu interfaz de red):
+### 3. Edit the official configuration script (~/unitree_ros2/setup.sh). It should look something like this (change enp44s0 to your network interface name):
 
 ```sh
 #!/bin/bash
@@ -135,11 +160,11 @@ export CYCLONEDDS_URI='<CycloneDDS><Domain><General><Interfaces>
 
 ---
 
-<a id="ejecucion-y-verificacion"></a>
+<a id="execution-and-verification"></a>
 
-## 🚀 4. Ejecución y verificación
+## 🚀 4. Execution and Verification
 
-### Terminal 1: Lanzar
+### Terminal 1: Launch
 
 ```bash
 source /opt/ros/humble/setup.bash
@@ -149,7 +174,7 @@ source ~/ros2_ws/install/setup.bash
 ros2 launch saaki_ros2_yolo saaki_ros2_yolo.launch.py
 ```
 
-### Terminal 2: Detecciones (--once para una sola muestra) y frecuencia
+### Terminal 2: Detections (--once for single sample) and frequency
 
 ```bash
 source /opt/ros/humble/setup.bash
@@ -159,19 +184,19 @@ source ~/ros2_ws/install/setup.bash
 ros2 topic echo /g1/yolo/detections_2d --once
 ```
 
-Salida JSON legacy:
+Legacy JSON output:
 
 ```bash
 ros2 topic echo /g1/yolo/detections --once
 ```
 
-Frecuencia:
+Frequency:
 
 ```bash
 ros2 topic hz /g1/yolo/detections_2d
 ```
 
-### Terminal 3: Visualización
+### Terminal 3: Visualization
 
 ```bash
 source /opt/ros/humble/setup.bash
@@ -181,20 +206,20 @@ source ~/ros2_ws/install/setup.bash
 rviz2
 ```
 
-Ve a add -> by topic -> g1/yolo/annotated_image -> image.
+Go to add -> by topic -> g1/yolo/annotated_image -> image.
 
-Es posible que `rqt_image_view` vaya demasiado lento, por eso usamos RViz2.
+`rqt_image_view` may be too slow, which is why we use RViz2.
 
 ---
 
-## 💡 Tópicos del paquete
+## 💡 Package Topics
 
-Entrada:
+Input:
 
 - `/api/videohub/request` (`unitree_api/msg/Request`)
 - `/api/videohub/response` (`unitree_api/msg/Response`)
 
-Salida:
+Output:
 
 - `/g1/yolo/detections_2d` (`vision_msgs/msg/Detection2DArray`)
 - `/g1/yolo/annotated_image` (`sensor_msgs/msg/Image`)
@@ -202,73 +227,73 @@ Salida:
 
 ---
 
-## 🎛️ Parámetros
+## 🎛️ Parameters
 
-### Comunicación y captura
+### Communication and Capture
 
-| Parámetro | Default | Descripción |
+| Parameter | Default | Description |
 | --- | --- | --- |
-| `request_topic` | `/api/videohub/request` | Topic de request de frame |
-| `response_topic` | `/api/videohub/response` | Topic de respuesta con JPEG |
-| `video_api_id` | `1001` | API ID de videohub |
-| `request_timeout_sec` | `0.5` | Timeout de request en vuelo |
-| `target_fps` | `15.0` | Objetivo de captura/inferencia |
-| `frame_id` | `g1_front_camera` | `frame_id` de mensajes publicados |
+| `request_topic` | `/api/videohub/request` | Frame request topic |
+| `response_topic` | `/api/videohub/response` | Response topic with JPEG |
+| `video_api_id` | `1001` | Videohub API ID |
+| `request_timeout_sec` | `0.5` | In-flight request timeout |
+| `target_fps` | `15.0` | Target capture/inference FPS |
+| `frame_id` | `g1_front_camera` | `frame_id` of published messages |
 
-### Salidas
+### Output
 
-| Parámetro | Default | Descripción |
+| Parameter | Default | Description |
 | --- | --- | --- |
-| `detections_topic` | `/g1/yolo/detections_2d` | Topic principal de detección |
-| `annotated_image_topic` | `/g1/yolo/annotated_image` | Topic de imagen anotada |
-| `publish_annotated_image` | `true` | Activa/desactiva imagen anotada |
-| `annotated_image_max_fps` | `15.0` | Límite de FPS de imagen anotada (`0.0` sin límite) |
-| `annotated_image_scale` | `0.33` | Escala de imagen anotada |
-| `publish_legacy_json` | `true` | Activa salida JSON legacy |
-| `legacy_detections_topic` | `/g1/yolo/detections` | Topic JSON legacy |
+| `detections_topic` | `/g1/yolo/detections_2d` | Main detection topic |
+| `annotated_image_topic` | `/g1/yolo/annotated_image` | Annotated image topic |
+| `publish_annotated_image` | `true` | Enable/disable annotated image |
+| `annotated_image_max_fps` | `15.0` | Annotated image FPS limit (`0.0` for no limit) |
+| `annotated_image_scale` | `0.33` | Annotated image scale |
+| `publish_legacy_json` | `true` | Enable legacy JSON output |
+| `legacy_detections_topic` | `/g1/yolo/detections` | Legacy JSON topic |
 
-### Modelo YOLO
+### YOLO Model
 
-| Parámetro | Default | Descripción |
+| Parameter | Default | Description |
 | --- | --- | --- |
-| `model_path` | `yolov8n.pt` | Modelo YOLO (`.pt` o nombre) |
+| `model_path` | `yolov8n.pt` | YOLO model (`.pt` or name) |
 | `device` | `auto` | `auto`, `cpu`, `cuda:0`, etc. |
-| `conf_threshold` | `0.25` | Umbral de confianza |
-| `iou_threshold` | `0.45` | Umbral IoU para NMS |
-| `max_detections` | `50` | Máximo de detecciones por frame |
+| `conf_threshold` | `0.25` | Confidence threshold |
+| `iou_threshold` | `0.45` | IoU threshold for NMS |
+| `max_detections` | `50` | Maximum detections per frame |
 
 ---
 
-## ⚠️ Solución de problemas
+## ⚠️ Troubleshooting
 
-`vision_msgs` no instalado:
+`vision_msgs` not installed:
 
 ```bash
 sudo apt install ros-humble-vision-msgs
 ```
 
-`ultralytics` no instalado:
+`ultralytics` not installed:
 
 ```bash
 pip install ultralytics
 ```
 
-No llegan frames o no hay detecciones:
+No frames arriving or no detections:
 
-- Verifica `/ros_bridge`.
-- Verifica `/api/videohub/request` y `/api/videohub/response`.
-- Comprueba que hiciste `source ~/unitree_ros2/setup.sh`.
-- Comprueba red (misma subred, interfaz correcta en CycloneDDS).
+- Check `/ros_bridge`.
+- Check `/api/videohub/request` and `/api/videohub/response`.
+- Make sure you ran `source ~/unitree_ros2/setup.sh`.
+- Check network (same subnet, correct interface in CycloneDDS).
 
-Imagen anotada lenta:
+Slow annotated image:
 
-- Baja `annotated_image_scale` (`0.33 -> 0.25`).
-- Mantén `annotated_image_max_fps` entre `10` y `15`.
-- Si priorizas inferencia, desactiva imagen anotada.
+- Lower `annotated_image_scale` (`0.33 -> 0.25`).
+- Keep `annotated_image_max_fps` between `10` and `15`.
+- If you prioritize inference, disable annotated image.
 
 ---
 
-## 🧑‍💻 Autores
+## 🧑‍💻 Authors
 
 - **Project Manager:** [Juan Fernández](https://github.com/jfbioaraba)
 - **Lead Developer:** [Andoni González](https://github.com/andoni92)
@@ -276,9 +301,8 @@ Imagen anotada lenta:
 ---
 ## Disclaimer
 
-Este software y los materiales asociados se proporcionan “tal cual”, sin garantías de ningún tipo, ni expresas ni implícitas, incluyendo —pero no limitándose a— garantías de comercialización, idoneidad para un propósito particular o ausencia de errores.
+This software and associated materials are provided "as is", without warranties of any kind, either express or implied, including—but not limited to—warranties of merchantability, fitness for a particular purpose, or freedom from errors.
 
-Los/as autores/as y Bioaraba – Instituto de Investigación Sanitaria no asumen responsabilidad alguna por el uso, la redistribución o la modificación de este repositorio ni por los posibles daños directos o indirectos derivados de su utilización.
+The authors and Bioaraba – Instituto de Investigación Sanitaria assume no responsibility for the use, redistribution, or modification of this repository or for any direct or indirect damages arising from its use.
 
-Este proyecto tiene fines exclusivos de investigación y/o docencia.
-
+This project is intended exclusively for research and/or educational purposes.
