@@ -25,13 +25,11 @@
 <table>
 <tr>
 <td align="center">
-<b>Robot View</b><br>
-<img <img width="500" height="500" alt="Robot View" src="https://github.com/user-attachments/assets/ce03567d-3936-44d4-9236-99993c3ff4ae" />
+<img width="500" height="500" alt="Robot View" src="https://github.com/user-attachments/assets/ce03567d-3936-44d4-9236-99993c3ff4ae" />
 </td>
 
 <td align="center">
-<b>Output (Shortened)</b><br>
-<img <img width="400" height="400" alt="Output" src="https://github.com/user-attachments/assets/9f0a8cac-f62e-4c20-8501-8db5dfa4d24f" />
+<img width="400" height="400" alt="Output" src="https://github.com/user-attachments/assets/b81133a8-3602-460e-9273-623e7858d9aa" />
 </td>
 </tr>
 </table>
