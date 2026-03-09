@@ -2,6 +2,11 @@
 
 <h1> YOLO Object Detection in ROS2 for Saaki - Unitree G1 </h1>
 
+<p>
+  <a href="README.md">English</a> |
+  <a href="README_es.md">Español</a>
+</p>
+
 [![ROS 2 Humble](https://img.shields.io/badge/ROS2-Humble-22314E?logo=ros&logoColor=white)](https://docs.ros.org/en/humble/index.html)
 [![Ubuntu 22.04](https://img.shields.io/badge/Ubuntu-22.04-E95420?logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/22.04/)
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white)](https://www.python.org/)
@@ -15,6 +20,23 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 </div>
 
+<div align="center">
+
+<table>
+<tr>
+<td align="center">
+<b>Robot View</b><br>
+<img <img width="500" height="500" alt="Robot View" src="https://github.com/user-attachments/assets/ce03567d-3936-44d4-9236-99993c3ff4ae" />
+</td>
+
+<td align="center">
+<b>Output (Shortened)</b><br>
+<img <img width="400" height="400" alt="Output" src="https://github.com/user-attachments/assets/9f0a8cac-f62e-4c20-8501-8db5dfa4d24f" />
+</td>
+</tr>
+</table>
+
+</div>
 
 ## 📖 Description
 
