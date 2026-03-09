@@ -2,6 +2,11 @@
 
 <h1> Detección con YOLO y ROS2 para  Saaki - Unitree G1 </h1>
 
+<p>
+  <a href="README.md">English</a> |
+  <a href="README_es.md">Español</a>
+</p>
+
 [![ROS 2 Humble](https://img.shields.io/badge/ROS2-Humble-22314E?logo=ros&logoColor=white)](https://docs.ros.org/en/humble/index.html)
 [![Ubuntu 22.04](https://img.shields.io/badge/Ubuntu-22.04-E95420?logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/22.04/)
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white)](https://www.python.org/)
@@ -10,11 +15,26 @@
 
 [![Computer Vision](https://img.shields.io/badge/AI-Computer%20Vision-purple)](https://www.ultralytics.com/)
 [![Robot: Unitree G1](https://img.shields.io/badge/Robot-Unitree%20G1-0A66C2)](#-real-g1-robot)
-[![Status: Tested on G1](https://img.shields.io/badge/Status-Tested%20on%20Real%20Hardware-success)](#ejecucion-y-verificacion)
+[![Status: Tested on G1](https://img.shields.io/badge/Status-Tested%20on%20Real%20Hardware-success)](#execution-and-verification)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 </div>
 
+<div align="center">
+
+<table>
+<tr>
+<td align="center">
+<img width="500" height="500" alt="Robot View" src="https://github.com/user-attachments/assets/ce03567d-3936-44d4-9236-99993c3ff4ae" />
+</td>
+
+<td align="center">
+<img width="400" height="400" alt="Output" src="https://github.com/user-attachments/assets/b81133a8-3602-460e-9273-623e7858d9aa" />
+</td>
+</tr>
+</table>
+
+</div>
 
 ## 📖 Descripción
 
