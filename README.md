@@ -22,7 +22,7 @@
 
 | Robot View | Terminal |
 |:---:|:---:|
-| <img alt="robot_view" src="https://github.com/user-attachments/assets/4b6c26ae-89a4-4c10-8a14-bd2507ed1e49" /> | <img alt="terminal" src="https://github.com/user-attachments/assets/b81133a8-3602-460e-9273-623e7858d9aa"/> |
+| ![robot_view](media/robot_view.png) | ![terminal](media/terminal.png) |
 
 
 ## 📖 Description

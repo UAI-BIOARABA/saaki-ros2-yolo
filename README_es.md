@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1> Detección con YOLO y ROS2 para  Saaki - Unitree G1 </h1>
+<h1> YOLO V8 con ROS2 para  Saaki - Unitree G1 </h1>
 
 <p>
   <a href="README.md">English</a> |
@@ -20,21 +20,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 </div>
 
-<div align="center">
-
-<table>
-<tr>
-<td align="center">
-<img width="500" height="500" alt="Robot View" src="https://github.com/user-attachments/assets/ce03567d-3936-44d4-9236-99993c3ff4ae" />
-</td>
-
-<td align="center">
-<img width="400" height="400" alt="Output" src="https://github.com/user-attachments/assets/b81133a8-3602-460e-9273-623e7858d9aa" />
-</td>
-</tr>
-</table>
-
-</div>
+| Vista del Robot | Terminal |
+|:---:|:---:|
+| ![robot_view](media/robot_view.png) | ![terminal](media/terminal.png) |
 
 ## 📖 Descripción
 
