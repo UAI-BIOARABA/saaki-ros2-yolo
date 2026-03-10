@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1> YOLO Object Detection in ROS2 for Saaki - Unitree G1 </h1>
+<h1> YOLO V8 in ROS2 for Saaki - Unitree G1 </h1>
 
 <p>
   <a href="README.md">English</a> |
@@ -22,9 +22,9 @@
 
 <div align="center">
 
-| Robot View | Output |
+| Robot View | Terminal |
 |:---:|:---:|
-| <img src="https://github.com/user-attachments/assets/ce03567d-3936-44d4-9236-99993c3ff4ae" width="500"/> | <img src="https://github.com/user-attachments/assets/b81133a8-3602-460e-9273-623e7858d9aa" width="400"/> |
+| <img src="https://github.com/user-attachments/assets/ce03567d-3936-44d4-9236-99993c3ff4ae"/> | <img src="https://github.com/user-attachments/assets/b81133a8-3602-460e-9273-623e7858d9aa"/> |
 
 </div>
 
