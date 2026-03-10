@@ -20,13 +20,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 </div>
 
-<div align="center">
-
 | Robot View | Terminal |
 |:---:|:---:|
-| <img src="https://github.com/user-attachments/assets/ce03567d-3936-44d4-9236-99993c3ff4ae"/> | <img src="https://github.com/user-attachments/assets/b81133a8-3602-460e-9273-623e7858d9aa"/> |
+| <img alt="robot_view" src="https://github.com/user-attachments/assets/4b6c26ae-89a4-4c10-8a14-bd2507ed1e49" /> | <img alt="terminal" src="https://github.com/user-attachments/assets/b81133a8-3602-460e-9273-623e7858d9aa"/> |
 
-</div>
 
 ## 📖 Description
 
