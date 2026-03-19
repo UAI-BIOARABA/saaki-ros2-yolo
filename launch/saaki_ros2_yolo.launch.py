@@ -1,3 +1,4 @@
+# Launch file for the saaki_ros2_yolo ROS 2 node.
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -6,12 +7,16 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description() -> LaunchDescription:
+    # Expose the main runtime parameters and start the YOLO node.
+    # Use the package's default YAML file unless the caller provides another one.
     default_params_file = PathJoinSubstitution(
         [FindPackageShare("saaki_ros2_yolo"), "config", "yolo_params.yaml"]
     )
 
     return LaunchDescription(
         [
+            # Launch arguments let users override the common tuning parameters
+            # without editing the packaged parameter file.
             DeclareLaunchArgument(
                 "params_file",
                 default_value=default_params_file,
@@ -48,6 +53,8 @@ def generate_launch_description() -> LaunchDescription:
                 name="saaki_ros2_yolo_node",
                 output="screen",
                 parameters=[
+                    # Load the base YAML file first, then override selected values
+                    # with any launch arguments provided by the caller.
                     LaunchConfiguration("params_file"),
                     {
                         "model_path": LaunchConfiguration("model_path"),
