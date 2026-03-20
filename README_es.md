@@ -20,9 +20,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 </div>
 
-| Vista del Robot | Terminal |
+| Vista del Robot | Ejemplo de Salida en Terminal |
 |:---:|:---:|
-| ![robot_view](media/robot_view.png) | ![terminal](media/terminal.png) |
+| ![robot_view](media/yolo.gif) | ![terminal](media/terminal.png) |
 
 ## 📖 Descripción
 

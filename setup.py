@@ -1,8 +1,10 @@
+# Setuptools configuration for the saaki_ros2_yolo ROS 2 package.
 from glob import glob
 import os
 
 from setuptools import find_packages, setup
 
+# Keep the package name in one place so install paths stay consistent.
 package_name = "saaki_ros2_yolo"
 
 setup(
@@ -10,6 +12,8 @@ setup(
     version="0.1.0",
     packages=find_packages(exclude=["test"]),
     data_files=[
+        # Register the package with the ament index and install the launch/config
+        # assets so `ros2 launch` can find them after installation.
         (
             "share/ament_index/resource_index/packages",
             [f"resource/{package_name}"],
