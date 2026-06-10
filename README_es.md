@@ -4,8 +4,7 @@
 
 <p align="center">
 
-[![Language: English](https://img.shields.io/badge/Language-English-0A66C2?logo=github)](README.md)
-[![Idioma: Español](https://img.shields.io/badge/Idioma-Español-E34F26?logo=github)](README_es.md)
+[English](README.md) | [Español](README_es.md)
 
 </p>
 
